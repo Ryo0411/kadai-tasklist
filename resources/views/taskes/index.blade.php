@@ -10,7 +10,7 @@
         <table class="table table-zebra w-full my-4">
             <thead>
                 <tr>
-                    <th>id</th>
+                    <th>ステータス</th>
                     <th>メッセージ</th>
                 </tr>
             </thead>
@@ -18,6 +18,7 @@
                 @foreach ($taskes as $task)
                 <tr>
                     <td><a class="link link-hover text-info" href="{{ route('taskes.show', $task->id) }}">{{ $task->id }}</a></td>
+                    <td>{{ $task->status }}</td>
                     <td>{{ $task->content }}</td>
                 </tr>
                 @endforeach
