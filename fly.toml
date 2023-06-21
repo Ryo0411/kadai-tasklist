@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for holy-fire-960 on 2023-06-16T07:25:23Z
+# fly.toml app configuration file generated for throbbing-moon-1932 on 2023-06-21T17:05:37Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "holy-fire-960"
+app = "throbbing-moon-1932"
 primary_region = "nrt"
 console_command = "php /var/www/html/artisan tinker"
 
@@ -19,15 +19,6 @@ console_command = "php /var/www/html/artisan tinker"
   LOG_STDERR_FORMATTER = "Monolog\\Formatter\\JsonFormatter"
   SESSION_DRIVER = "cookie"
   SESSION_SECURE_COOKIE = "true"
-  APP_URL = "https://holy-fire-960.fly.dev"
-  APP_NAME = "Laravel"
-  APP_DEBUG = false
-  DB_CONNECTION = "pgsql"
-  DB_HOST = "db.gmangwskvwjmgwdixwcz.supabase.co"
-  DB_PORT = 5432
-  DB_DATABASE = "postgres"
-  DB_USERNAME = "postgres"
-# fly secrets set DB_PASSWORD = mYKu8pcMkt!
 
 [http_service]
   internal_port = 8080

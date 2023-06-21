@@ -52,25 +52,38 @@ class TasksController extends Controller
     // getでmessages/idにアクセスされた場合の「取得表示処理」
     public function show($id)
     {
-        // idの値でメッセージを検索して取得
-        $task = Task::findOrFail($id);
+        $userId = \Auth::user()->id;
+        $result = Task::where('user_id', $userId)->where('id', $id)->get();
+        if (!$result->isEmpty()) {
+            // idの値でメッセージを検索して取得
+            $task = Task::findOrFail($id);
+    
+            // メッセージ詳細ビューでそれを表示
+            return view('taskes.show', [
+                'task' => $task,
+            ]);
+        }
 
-        // メッセージ詳細ビューでそれを表示
-        return view('taskes.show', [
-            'task' => $task,
-        ]);
+        // トップページへリダイレクトさせる
+        return redirect('/');
     }
 
     // getでmessages/id/editにアクセスされた場合の「更新画面表示処理」
     public function edit($id)
     {
-        // idの値でメッセージを検索して取得
-        $task = Task::findOrFail($id);
-
-        // メッセージ編集ビューでそれを表示
-        return view('taskes.edit', [
-            'task' => $task,
-        ]);
+        $userId = \Auth::user()->id;
+        $result = Task::where('user_id', $userId)->where('id', $id)->get();
+        if (!$result->isEmpty()) {
+            // idの値でメッセージを検索して取得
+            $task = Task::findOrFail($id);
+    
+            // メッセージ編集ビューでそれを表示
+            return view('taskes.edit', [
+                'task' => $task,
+            ]);
+        }
+        // トップページへリダイレクトさせる
+        return redirect('/');
     }
 
     // putまたはpatchでmessages/idにアクセスされた場合の「更新処理」
@@ -95,10 +108,14 @@ class TasksController extends Controller
     // deleteでmessages/idにアクセスされた場合の「削除処理」
     public function destroy($id)
     {
-        // idの値でメッセージを検索して取得
-        $task = Task::findOrFail($id);
-        // メッセージを削除
-        $task->delete();
+        $userId = \Auth::user()->id;
+        $result = Task::where('user_id', $userId)->where('id', $id)->get();
+        if (!$result->isEmpty()) {
+            // idの値でメッセージを検索して取得
+            $task = Task::findOrFail($id);
+            // メッセージを削除
+            $task->delete();
+        }
 
         // トップページへリダイレクトさせる
         return redirect('/');
