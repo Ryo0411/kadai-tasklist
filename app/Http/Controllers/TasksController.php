@@ -10,7 +10,7 @@ class TasksController extends Controller
     public function index()
     {
         // メッセージ一覧を取得
-        $taskes = Task::all();         // 追加
+        $taskes = Task::where('user_id', $userId)->get();
 
         // メッセージ一覧ビューでそれを表示
         return view('taskes.index', [     // 追加
@@ -42,6 +42,7 @@ class TasksController extends Controller
         $task = new Task;
         $task->content = $request->content;
         $task->status = $request->status;
+        $task->user_id = \Auth::user()->id;
         $task->save();
 
         // トップページへリダイレクトさせる

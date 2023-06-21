@@ -10,6 +10,7 @@
         <table class="table table-zebra w-full my-4">
             <thead>
                 <tr>
+                    <th>id</th>
                     <th>ステータス</th>
                     <th>メッセージ</th>
                 </tr>
