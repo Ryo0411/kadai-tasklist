@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\TasksController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MicropostsController; //追記
 
 /*
 |--------------------------------------------------------------------------
@@ -15,14 +14,13 @@ use App\Http\Controllers\MicropostsController; //追記
 |
 */
 
-Route::get('/', [MicropostsController::class, 'index']);
+Route::get('/', [TasksController::class, 'index']);
 
-Route::get('/dashboard', [MicropostsController::class, 'index'])->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', [TasksController::class, 'index'])->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('taskes', TasksController::class);
-    Route::resource('microposts', MicropostsController::class, ['only' => ['store', 'destroy']]);
 });
 

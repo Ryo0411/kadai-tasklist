@@ -6,7 +6,7 @@
             <div class="max-w-md mb-10">
                 <h2>Welcome to the Microposts</h2>
                 {{-- ユーザ登録ページへのリンク --}}
-                <a class="btn btn-primary btn-lg normal-case" href="{{ route('register') }}">Sign up now!</a>
+                <button class="btn btn-primary btn-lg normal-case" href="{{ route('register') }}">Sign up now!</button>
             </div>
         </div>
     </div>

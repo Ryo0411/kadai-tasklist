@@ -4,18 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Task;
+use Illuminate\Support\Facades\Auth;
 
 class TasksController extends Controller
 {
     public function index()
     {
-        // メッセージ一覧を取得
-        $taskes = Task::where('user_id', $userId)->get();
+        $taskes = [];
+        if (\Auth::check()) { // 認証済みの場合
+        
+            // 認証済みユーザを取得
+            $user = \Auth::user();
 
-        // メッセージ一覧ビューでそれを表示
-        return view('taskes.index', [     // 追加
-            'taskes' => $taskes,        // 追加
-        ]);
+            // メッセージ一覧を取得
+            $task = Task::where('user_id', $user->id)->get();
+            // メッセージ一覧ビューでそれを表示
+            // dd($task);
+            return view('taskes.index', [     // 追加
+                'taskes' => $task,        // 追加
+            ]);
+        }
+
+        return view('dashboard');
     }
 
     public function create()
@@ -52,9 +62,8 @@ class TasksController extends Controller
     // getでmessages/idにアクセスされた場合の「取得表示処理」
     public function show($id)
     {
-        $userId = \Auth::user()->id;
-        $result = Task::where('user_id', $userId)->where('id', $id)->get();
-        if (!$result->isEmpty()) {
+        $result = \App\Models\Task::findOrFail($id);
+        if (\Auth::id() === $result->user_id) {
             // idの値でメッセージを検索して取得
             $task = Task::findOrFail($id);
     
@@ -71,9 +80,8 @@ class TasksController extends Controller
     // getでmessages/id/editにアクセスされた場合の「更新画面表示処理」
     public function edit($id)
     {
-        $userId = \Auth::user()->id;
-        $result = Task::where('user_id', $userId)->where('id', $id)->get();
-        if (!$result->isEmpty()) {
+        $result = \App\Models\Task::findOrFail($id);
+        if (\Auth::id() === $result->user_id) {
             // idの値でメッセージを検索して取得
             $task = Task::findOrFail($id);
     
@@ -94,13 +102,14 @@ class TasksController extends Controller
             'status' => 'required|max:10',   // 追加
             'content' => 'required',
         ]);
-        
-        // idの値でメッセージを検索して取得
-        $task = Task::findOrFail($id);
-        // メッセージを更新
-        $task->content = $request->content;
-        $task->save();
-
+        $result = \App\Models\Task::findOrFail($id);
+        if (\Auth::id() === $result->user_id) {
+            // idの値でメッセージを検索して取得
+            $task = Task::findOrFail($id);
+            // メッセージを更新
+            $task->content = $request->content;
+            $task->save();
+        }
         // トップページへリダイレクトさせる
         return redirect('/');
     }
@@ -108,9 +117,8 @@ class TasksController extends Controller
     // deleteでmessages/idにアクセスされた場合の「削除処理」
     public function destroy($id)
     {
-        $userId = \Auth::user()->id;
-        $result = Task::where('user_id', $userId)->where('id', $id)->get();
-        if (!$result->isEmpty()) {
+        $result = \App\Models\Task::findOrFail($id);
+        if (\Auth::id() === $result->user_id) {
             // idの値でメッセージを検索して取得
             $task = Task::findOrFail($id);
             // メッセージを削除
